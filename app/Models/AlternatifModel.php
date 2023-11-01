@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class AlternatifModel extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name', 'ipk', 'kti', 'prestasi', 'bahasa_inggris'
+    ];
 }

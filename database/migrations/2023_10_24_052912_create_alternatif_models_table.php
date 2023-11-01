@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('alternatif_models', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->float('ipk');
+            $table->integer('kti');
+            $table->integer('prestasi');
+            $table->integer('bahasa_inggris');
             $table->timestamps();
         });
     }
