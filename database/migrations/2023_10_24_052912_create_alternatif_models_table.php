@@ -13,11 +13,26 @@ return new class extends Migration
     {
         Schema::create('alternatif_models', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->float('ipk');
-            $table->integer('kti');
-            $table->integer('prestasi');
-            $table->integer('bahasa_inggris');
+            $table->string('nama_sekolah');
+            $table->integer('user_id');
+            $table->string('alamat');
+            $table->string('contact');
+            $table->string('instagram');
+            $table->string('website_sekolah');
+            $table->float('npsn');
+            $table->float('akreditasi');
+            $table->float('ruang_kelas');
+            $table->float('laboratorium');
+            $table->float('perpustakaan');
+            $table->float('uks');
+            $table->float('sanitasi');
+            $table->float('tempat_ibadah');
+            $table->float('guru');
+            $table->float('ekstrakulikuler'); 
+            $table->float('biaya_masuk'); 
+            $table->float('biaya_spp'); 
+            $table->float('longitude'); 
+            $table->float('latitude'); 
             $table->timestamps();
         });
     }

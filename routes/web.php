@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\AlternatifController;
 use App\Http\Controllers\AlternatifModelController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PembobotanController;
+use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,11 +19,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
+Route::post('/login', [LoginController::class, 'authenticate']);
+Route::post('/logout', [LoginController::class, 'logout']);
+
+
+Route::get('/register', [RegisterController::class, 'index'])->middleware('guest');
+Route::post('/register', [RegisterController::class, 'store']);
+
+// Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+// Route::get('/alternatif', [AlternatifController::class, 'index'])->middleware('auth');
+// Route::get('/tambah', [AlternatifController::class, 'create'])->middleware('auth');
+// Route::post('/tambah', [AlternatifController::class, 'store'])->middleware('auth');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+    // Route::get('/alternatif', [AlternatifController::class, 'index']);
+    // Route::get('/tambah', [AlternatifController::class, 'create']);
+    // Route::post('/tambah', [AlternatifController::class, 'store']);
+    Route::resource('/alternatif', AlternatifController::class);
+
 });
 
-Route::get('/test', [PembobotanController::class, 'hitung'])->name('test');
-Route::get('/alternatif', [AlternatifModelController::class, 'normalizeMatrix'])->name('alternatif');
-Route::get('/alternatifterbobot', [AlternatifModelController::class, 'weightedNormalizeMatrix'])->name('alternatifterbobot');
-Route::get('/ideal_solution', [AlternatifModelController::class, 'idealSolution'])->name('ideal_solution');
+// Route::get('/test', [PembobotanController::class, 'hitung'])->name('test');
+// Route::get('/alternatif', [AlternatifModelController::class, 'normalizeMatrix'])->name('alternatif');
+// Route::get('/alternatifterbobot', [AlternatifModelController::class, 'weightedNormalizeMatrix'])->name('alternatifterbobot');
+// Route::get('/ideal_solution', [AlternatifModelController::class, 'idealSolution'])->name('ideal_solution');
