@@ -2,32 +2,8 @@
 namespace App\Services;
 
 class AnalyticalHierarchyProcess {
-    private $criterias = [];
-    private $rawCriteria  = [];
-    private $relativeMatrix = [];
-    private $eigenVector = [];
-    private $criteriaPairWise = [];
-    private $finalMatrix = [];
 
-    public function hitung () {
-        // $criteria = ["ipk", "kti", "bing", "prestasi"];
-        $oneDimensionalArray = [1, 0.2, 0.25, 0.33, 5, 1, 3, 2, 4, 0.33, 1, 2, 3, 0.5, 0.5, 1];
-
-        // Konversi menjadi matriks
-        $columns = 4;
-        $multiArray = array();
-
-        for ($i = 0; $i < count($oneDimensionalArray); $i += $columns) {
-            $row = array_slice($oneDimensionalArray, $i, $columns);
-            $multiArray[] = $row;
-        }
-
-        $eigenvector = [
-            [0.072497629854542],
-            [0.47100992274955],
-            [0.26400368035311],
-            [0.19248876704279]
-        ];
+    public function hitungTotal (array $multiArray) {
 
         $tot = [];
         $columnSums = array_fill(0, count($multiArray[0]), 0);
@@ -43,11 +19,8 @@ class AnalyticalHierarchyProcess {
         foreach ($columnSums as $sum) {
             $tot[] = $sum;
         }
-        $do = $this->normalizeMatrix($multiArray, $tot);
-        $da = $this->getEigenVector($do);
-        $di = $this->concistencyCheck($multiArray, $eigenvector);
-        $du = [$multiArray ,$do, $da, $di];
-        dd($du);
+
+        return $tot;
     }
 
     public function normalizeMatrix (array $matrix,array $tot) {
@@ -72,7 +45,29 @@ class AnalyticalHierarchyProcess {
         return $eigen;
     }
 
-    private function concistencyCheck($matrix,$eigen){
+    public static $ir = [
+        0.00,
+        0.00,
+        0.58,
+        0.90,
+        1.12,
+        1.24,
+        1.32,
+        1.41,
+        1.45,
+        1.49,
+        1.51,
+        1.48,
+        1.56,
+        1.57,
+        1.59
+    ];
+
+    public static function getIR($matrix_size){
+        return isset(self::$ir[$matrix_size-1]) ? self::$ir[$matrix_size-1] : null;
+    }
+
+    public function concistencyCheck($matrix,$eigen){
         $s = count($matrix);
         $dmax = 0;
         for ($i=0; $i < $s; $i++) { 
@@ -85,7 +80,7 @@ class AnalyticalHierarchyProcess {
         }
         $ci = ($dmax - $s)/($s - 1);
         
-        $cr = $ci / Constants::getIR($s);
+        $cr = $ci / $this->getIR($s);
         return $cr;
     }
 

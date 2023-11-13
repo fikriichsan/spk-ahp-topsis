@@ -50,10 +50,6 @@
                         <label for="website_sekolah" class="form-label">Website</label>
                         <input type="text" class="form-control @error('website_sekolah') is-invalid @enderror" name="website_sekolah" id="contact" placeholder="Masukan Nomor Telepon">
                     </div>
-                    <div class="col mb-3 p-0">
-                        <label for="akreditasi" class="form-label">Akreditasi</label>
-                        <input class="form-control @error('akreditasi') is-invalid @enderror" name="akreditasi" id="akreditasi" placeholder="Masukan Nilai AKreditasi Sekolah">
-                    </div>
                 </div>
                 
                 <div class="row mb-3">
@@ -146,72 +142,3 @@
 @php
     $showsidebar =true
 @endphp
-
-{{-- <div class="mb-3">
-    <label for="nama_sekolah" class="form-label ">Nama Sekolah</label>
-    <input type="text" class="form-control @error('nama_sekolah') is-invalid @enderror" id="nama_sekolah" name="nama_sekolah" placeholder="Masukan Nama Sekolah">
-</div>
-<div class="mb-3">
-    <label for="alamat" class="form-label">Alamat Sekolah</label>
-    <input type="text" class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat" placeholder="Masukan Alamat Sekolah">
-</div>
-<div class="mb-3">
-    <label for="contact" class="form-label">Kontak</label>
-    <input type="number" class="form-control @error('contact') is-invalid @enderror" name="contact" id="contact" placeholder="Masukan Nomor Telepon">
-</div>
-<div class="mb-3">
-    <label for="npsn" class="form-label">NPSN</label>
-    <input type="text" class="form-control @error('npsn') is-invalid @enderror" name="npsn" id="npsn" placeholder="Masukan Nomor NPSN Sekolah">
-</div>
-<div class="mb-3">
-    <label for="akreditasi" class="form-label">Akreditasi</label>
-    <input class="form-control @error('akreditasi') is-invalid @enderror" name="akreditasi" id="akreditasi" placeholder="Masukan Nilai AKreditasi Sekolah">
-</div>
-<div class="mb-3">
-    <label for="ruangKelas" class="form-label">Jumlah Kelas</label>
-    <input class="form-control @error('ruang_kelas') is-invalid @enderror" name="ruang_kelas" id="ruangKelas" placeholder="Masukan jumlah kelas">
-</div>
-<div class="mb-3">
-    <label for="laboratorium" class="form-label">Laboratorium</label>
-    <input class="form-control @error('laboratorium') is-invalid @enderror" name="laboratorium" id="laboratorium" placeholder="Masukan Jumlah Laboratorium">
-</div>
-<div class="mb-3">
-    <label for="perpustakaan" class="form-label">Perpustakaan</label>
-    <input class="form-control @error('perpustakaan') is-invalid @enderror" name="perpustakaan" id="perpustakaan" placeholder="Masukan Jumlah Laboratorium">
-</div>
-<div class="mb-3">
-    <label for="uks" class="form-label">UKS</label>
-    <input  class="form-control @error('uks') is-invalid @enderror" name="uks" id="uks" placeholder="Masukan Jumlah UKS">
-</div>
-<div class="mb-3">
-    <label for="sanitasi" class="form-label">Sanitasi</label>
-    <input  class="form-control @error('sanitasi') is-invalid @enderror" name="sanitasi" id="sanitasi" placeholder="Masukan jumlah sanitasi">
-</div>
-<div class="mb-3">
-    <label for="tempat_ibadah" class="form-label">Tempat Ibadah</label>
-    <input class="form-control @error('tempat_ibadah') is-invalid @enderror" name="tempat_ibadah" id="tempat_ibadah" placeholder="Masukan Jumlah Tempat Ibadah">
-</div>
-<div class="mb-3">
-    <label for="guru" class="form-label">Jumlah Guru</label>
-    <input class="form-control @error('guru') is-invalid @enderror" id="guru" name="guru" placeholder="Masukan Jumlah guru">
-</div>
-<div class="mb-3">
-    <label for="ekstrakulikuler" class="form-label">Ekstrakulikuler</label>
-    <input class="form-control" name="ekstrakulikuler" placeholder="Masukan Jumlah Ekstrakulikuler">
-</div>
-<div class="mb-3">
-    <label for="biaya_masuk" class="form-label">Biaya Masuk</label>
-    <input class="form-control @error('biaya_masuk') is-invalid @enderror" id="biaya_masuk" name="biaya_masuk" placeholder="Masukan Biaya Masuk">
-</div>
-<div class="mb-3">
-    <label for="biaya_spp" class="form-label">Biaya SPP</label>
-    <input class="form-control @error('biaya_spp') is-invalid @enderror" id="biaya_spp" name="biaya_spp" placeholder="Masukan Biaya SPP">
-</div>
-<div class="mb-3">
-    <label for="longitude" class="form-label">Longtitude</label>
-    <input class="form-control @error('longitude') is-invalid @enderror" id="longitude" name="longitude" placeholder="Masukan Longtitude">
-</div>
-<div class="mb-3">
-    <label for="latitude" class="form-label">Latitude</label>
-    <input class="form-control @error('latitude') is-invalid @enderror" name="latitude" id="latitude" placeholder="Masukan Latitude">
-</div> --}}

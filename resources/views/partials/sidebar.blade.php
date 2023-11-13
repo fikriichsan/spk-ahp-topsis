@@ -16,7 +16,7 @@
                             <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Perhitungan</span> </a>
                         <ul class="collapse nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
                             <li class="w-100">
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline"> Data Kriteria</span> </a>
+                                <a href="/kriteria" class="nav-link px-0"> <span class="d-none d-sm-inline"> Data Kriteria</span> </a>
                             </li>
                             <li>
                                 <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Analisa Perhitungan</span> </a>

@@ -29,10 +29,19 @@ return new class extends Migration
             $table->float('tempat_ibadah');
             $table->float('guru');
             $table->float('ekstrakulikuler'); 
-            $table->float('biaya_masuk'); 
-            $table->float('biaya_spp'); 
-            $table->float('longitude'); 
-            $table->float('latitude'); 
+            $table->string('biaya_masuk'); 
+            $table->string('biaya_spp'); 
+            $table->string('longitude'); 
+            $table->string('latitude'); 
+            $table->timestamps();
+        });
+        Schema::create('kriteria_models', function (Blueprint $table) {
+            $table->id();
+            $table->string('name_kriteria');
+            $table->float('akreditasi');
+            $table->float('fasilitas');
+            $table->float('biaya');
+            $table->float('lokasi');
             $table->timestamps();
         });
     }
@@ -43,5 +52,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('alternatif_models');
+        Schema::dropIfExists('kriteria_models');
     }
 };

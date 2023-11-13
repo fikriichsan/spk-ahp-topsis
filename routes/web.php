@@ -3,6 +3,7 @@
 use App\Http\Controllers\AlternatifController;
 use App\Http\Controllers\AlternatifModelController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KriteriaController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PembobotanController;
 use App\Http\Controllers\RegisterController;
@@ -34,9 +35,7 @@ Route::post('/register', [RegisterController::class, 'store']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
-    // Route::get('/alternatif', [AlternatifController::class, 'index']);
-    // Route::get('/tambah', [AlternatifController::class, 'create']);
-    // Route::post('/tambah', [AlternatifController::class, 'store']);
+    Route::resource('/kriteria', KriteriaController::class);
     Route::resource('/alternatif', AlternatifController::class);
 
 });
