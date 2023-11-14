@@ -84,6 +84,10 @@ table thead th:first-child {
 .reset {
     all: revert;
 }
+
+#map {
+    height: 300px;
+}
     
 @media (min-width: 1025px) {
     .h-custom-2 {

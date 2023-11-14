@@ -15,15 +15,7 @@ class KriteriaController extends Controller
     }
 
     public function index() {
-        $kriteria = KriteriaModel::select('akreditasi', 'fasilitas', 'biaya', 'lokasi')->get();
-        $newKriteria = $kriteria->map(function ($kriteria) {
-            return [
-                $kriteria->akreditasi,
-                $kriteria->fasilitas,
-                $kriteria->biaya,
-                $kriteria->lokasi,
-            ];
-        });
+        $kriteria = KriteriaModel::all();
         return view('kriteria', [
             'title' => 'Kriteria',
             'kriteria' => $kriteria

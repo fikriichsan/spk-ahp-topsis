@@ -14,8 +14,8 @@
     <tbody>
         @foreach ($kriteria as $i)
             <tr>
-                <td>
-                    nama kriteria
+                <td class="align-middle">
+                    {{ $i->name_kriteria }}
                 </td>
                 <td class="align-middle">
                     <input type="text" class="form-control" value="{{ $i->akreditasi }}">
@@ -33,6 +33,7 @@
         @endforeach
     </tbody>
 </table>
+
 @endsection
 
 @php
