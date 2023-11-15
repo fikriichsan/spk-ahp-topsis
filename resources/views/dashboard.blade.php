@@ -115,8 +115,5 @@
               console.log(distance); 
             }
         })
-        // distance = L.latLng([-1.2292844084122845, 116.86225873176814]).distanceTo([-1.233403330005774, 116.85951214901878])
-        // console.log(distance/1000);   
-
     })
 </script>

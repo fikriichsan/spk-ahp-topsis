@@ -16,9 +16,9 @@ class RegisterController extends Controller
         $validateData = $request->validate([
             'name' => 'required|max:255',
             'email' => 'required|email:dns|unique:users',
-            'password' => 'required|min:5|max:15'
+            'password' => 'required|min:5|max:15',            
         ]);
-
+        $validateData['is_admin'] = 0;
         User::create($validateData);
         return redirect('/login')->with('success', 'Registration successfull! Please login');
     }

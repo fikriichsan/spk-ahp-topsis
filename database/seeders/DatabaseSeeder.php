@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\KriteriaSeed;
+use Database\Seeders\SubKriteriaBiayaSeed;
+use Database\Seeders\SubKriteriaFasilitasSeed;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,7 +16,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            AlternatifModelSeeder::class,
+            KriteriaSeed::class,
+            SubKriteriaBiayaSeed::class,
+            SubKriteriaFasilitasSeed::class
         ]);
     }
 }
