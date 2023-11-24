@@ -19,11 +19,11 @@ class SubKriteriaBiayaSeed extends Seeder
             [
                 'nama_kriteria' => 'Biaya masuk',
                 'biaya_masuk' => 1,
-                'biaya_spp' => 0,
+                'biaya_spp' => 5,
             ],
             [
                 'nama_kriteria' => 'Biaya SPP',
-                'biaya_masuk' => 0,
+                'biaya_masuk' => 0.2,
                 'biaya_spp' => 1,
             ],
         ];

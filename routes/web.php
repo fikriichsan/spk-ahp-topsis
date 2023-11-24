@@ -29,10 +29,7 @@ Route::post('/logout', [LoginController::class, 'logout']);
 Route::get('/register', [RegisterController::class, 'index'])->middleware('guest');
 Route::post('/register', [RegisterController::class, 'store']);
 
-// Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
-// Route::get('/alternatif', [AlternatifController::class, 'index'])->middleware('auth');
-// Route::get('/tambah', [AlternatifController::class, 'create'])->middleware('auth');
-// Route::post('/tambah', [AlternatifController::class, 'store'])->middleware('auth');
+Route::get('/perhitungan', [AlternatifModelController::class, 'pref']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
@@ -40,8 +37,3 @@ Route::middleware('auth')->group(function () {
     Route::resource('/alternatif', AlternatifController::class);
 
 });
-
-// Route::get('/test', [PembobotanController::class, 'hitung'])->name('test');
-// Route::get('/alternatif', [AlternatifModelController::class, 'normalizeMatrix'])->name('alternatif');
-// Route::get('/alternatifterbobot', [AlternatifModelController::class, 'weightedNormalizeMatrix'])->name('alternatifterbobot');
-// Route::get('/ideal_solution', [AlternatifModelController::class, 'idealSolution'])->name('ideal_solution');

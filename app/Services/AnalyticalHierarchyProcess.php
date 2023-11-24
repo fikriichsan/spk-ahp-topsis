@@ -70,17 +70,21 @@ class AnalyticalHierarchyProcess {
     public function concistencyCheck($matrix,$eigen){
         $s = count($matrix);
         $dmax = 0;
+        $arrDMax = [];
         for ($i=0; $i < $s; $i++) { 
             $e = 0;
             for ($j=0; $j < $s; $j++) { 
-                $e+= $matrix[$j][$i];
+                $e += $matrix[$i][$j] * $eigen[$j];
             }
-            $dmax+= $e * $eigen[$i];
-            
+            $dmax += $e/$eigen[$i];
         }
+        $dmax = $dmax*1/$s;
         $ci = ($dmax - $s)/($s - 1);
-        
-        $cr = $ci / $this->getIR($s);
+        if ($s > 2) {
+            $cr = $ci / $this->getIR($s);
+        } else {
+            $cr = 0;
+        }
         return $cr;
     }
 

@@ -19,7 +19,5 @@ class DashboardController extends Controller
             'total_kriteria' => KriteriaModel::all()->count(),
             'lokasi_sekolah' => compact('locationSchool')
         ]);
-
-
     }
 }

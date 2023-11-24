@@ -20,29 +20,19 @@ class KriteriaSeed extends Seeder
                 'name_kriteria' => 'akreditasi',
                 'akreditasi' => 1,
                 'fasilitas' => 3,
-                'biaya' => 2,
-                'lokasi' => 4,
+                'biaya' => 7,
             ],
             [
                 'name_kriteria' => 'fasilitas',
                 'akreditasi' => 0.33,
                 'fasilitas' => 1,
-                'biaya' => 0.50,
-                'lokasi' => 5,
+                'biaya' => 5,
             ],
             [
                 'name_kriteria' => 'biaya',
-                'akreditasi' => 0.5,
-                'fasilitas' => 2,
+                'akreditasi' => 0.15,
+                'fasilitas' => 0.2,
                 'biaya' => 1,
-                'lokasi' => 3,
-            ],
-            [
-                'name_kriteria' => 'lokasi',
-                'akreditasi' => 0.25,
-                'fasilitas' => 0.20,
-                'biaya' => 0.33,
-                'lokasi' => 1,
             ],
         ];
 

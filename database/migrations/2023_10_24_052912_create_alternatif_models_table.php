@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('contact');
             $table->string('instagram');
             $table->string('website_sekolah');
-            $table->float('npsn');
+            $table->string('npsn');
             $table->float('akreditasi');
             $table->float('ruang_kelas');
             $table->float('laboratorium');
