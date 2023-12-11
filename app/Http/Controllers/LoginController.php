@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,6 +11,14 @@ class LoginController extends Controller
    public function index() {
     return view('login', [
         'title' => 'login'
+    ]);
+   }
+
+   public function profile(Request $request) {
+    $data = $request->session()->all();
+
+    return view('profile', [
+        'title' => 'profile'
     ]);
    }
 

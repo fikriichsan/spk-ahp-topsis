@@ -50,4 +50,5 @@
 
 @php
     $showsidebar = false;
+    $showNavbar = false;
 @endphp

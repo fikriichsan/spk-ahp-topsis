@@ -18,10 +18,10 @@
                 <tbody>
                     @foreach ($alternatif as $item)
                         <tr>
-                            <td class="align-middle" style="table-layout: fixed">{{ $item->nama_sekolah }}</td>
+                            <td class="align-middle" style="text-align: justify">{{ $item->nama_sekolah }}</td>
                             <td class="align-middle">{{ $item->npsn }}</td>
                             <td class="align-middle">{{ $item->akreditasi }}</td>
-                            <td class="align-middle">{{ $item->alamat }}</td>
+                            <td class="align-middle" style="text-align: justify; min-width: 500px; max-width: 500px">{{ $item->alamat }}</td>
                             <td class="align-middle">
                                 <div class="btn-group dropstart rounded-circle">
                                     <button class="btn btn-secondary rounded-circle" type="button" data-bs-toggle="dropdown" aria-bs-expanded="false" data-bs-boundary="window">

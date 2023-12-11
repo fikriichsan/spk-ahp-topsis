@@ -12,20 +12,16 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Perhitungan</span> </a>
-                        <ul class="collapse nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
-                            <li class="w-100">
-                                <a href="/kriteria" class="nav-link px-0"> <span class="d-none d-sm-inline"> Data Kriteria</span> </a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Analisa Perhitungan</span> </a>
-                            </li>
-                        </ul>
+                        <a href="/kriteria" class="nav-link px-0 align-middle">
+                            <i class="fs-4 bi bi-file-bar-graph-fill"></i> <span class="ms-1 d-none d-sm-inline">Data Kriteria</span></a>
                     </li>
                     <li>
                         <a href="/alternatif" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Data Alternatif</span></a>
+                            <i class="fs-4 bi bi-building-fill"></i> <span class="ms-1 d-none d-sm-inline">Data Alternatif</span></a>
+                    </li>
+                    <li>
+                        <a href="/hasil" class="nav-link px-0 align-middle">
+                            <i class="fs-4 bi bi-calculator-fill"></i> <span class="ms-1 d-none d-sm-inline">Hasil Alternatif</span></a>
                     </li>
                 </ul>
                 <hr>
@@ -37,7 +33,7 @@
                         </a>
                     @endauth
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="/profile">Profile</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>

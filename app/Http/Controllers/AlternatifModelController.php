@@ -7,6 +7,8 @@ use Termwind\Components\Dd;
 use Illuminate\Http\Request;
 use Bardiz12\AHPDss\Constants;
 use App\Models\AlternatifModel;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\KriteriaController;
 use App\Services\AnalyticalHierarchyProcess;
 use Illuminate\Database\Eloquent\Collection;
@@ -14,11 +16,13 @@ use App\Http\Controllers\PembobotanController;
 
 class AlternatifModelController extends Controller
 {
-    private function pembagi()
-    {
+    public function index() {
+        $locationSchool = AlternatifModel::select('nama_sekolah', 'longitude', 'latitude')->get();
         $alternatif = AlternatifModel::all();
         $mapOnlyCriteria = $alternatif->map(function($alternatif) {
             return [
+                $alternatif->id,
+                $alternatif->nama_sekolah,
                 $alternatif->akreditasi,
                 $alternatif->ruang_kelas,
                 $alternatif->laboratorium + $alternatif->perpustakaan + $alternatif->uks + $alternatif->sanitasi + $alternatif->tempat_ibadah,
@@ -29,8 +33,80 @@ class AlternatifModelController extends Controller
             ];
         });
         
-        $sumCriteria = array_fill(0, 7, 0);
-        foreach ($mapOnlyCriteria as $criteria ) {
+        return view('spk', [
+            'title' => 'REKOMENDASI',
+            'alternatif' => AlternatifModel::all(),
+            'lokasi_sekolah' => compact('locationSchool')
+        ]);
+    }
+
+    public function hitungTopsis(Request $request){
+        $latitude = $request->input('latitude');
+        $longitude = $request->input('longitude');
+        $jarakSekolah = [];
+        $ranking = 1;
+        $school = AlternatifModel::all()->toArray();
+        foreach ($school as $key ) {
+            $long1 = deg2rad($longitude);
+            $long2 = deg2rad($key['longitude']);
+            $lat1 = deg2rad($latitude);
+            $lat2 = deg2rad($key['latitude']);
+            $dlong = $long2 - $long1;
+		    $dlati = $lat2 - $lat1;
+		    $val = pow(sin($dlati/2),2)+cos($lat1)*cos($lat2)*pow(sin($dlong/2),2);
+            $res = 2 * asin(sqrt($val));
+            $radius = 6371;
+            $distance = $res*$radius;
+            $jarakSekolah[] = $distance;
+        }
+        for ($i=0; $i < count($school) ; $i++) {
+            if ($longitude==0) {
+                $school[$i] += ['jarak'=>0]; 
+            } else {
+                $school[$i] += ['jarak'=>$jarakSekolah[$i]];  
+            }
+        }
+
+        $pembagi = $this->pembagi($school);
+        $normalizeMatrix = $this->normalizeMatrix($school, $pembagi[1]);
+        $weightedMatrix = $this->weightedNormalizeMatrix($normalizeMatrix);
+        $idealSolution = $this->idealSolution($weightedMatrix);
+        $idealDistance = $this->idealDistance($weightedMatrix, $idealSolution);
+        $nilaiPref = $this->pref($idealDistance);
+
+        for ($i=0; $i <count($school) ; $i++) { 
+            $school[$i] += ['score'=>$nilaiPref[$i]];
+        }
+        array_multisort($nilaiPref, SORT_DESC, $school);
+        for ($i=0; $i <count($school) ; $i++) { 
+            $school[$i] += ['rank'=>$ranking];
+            $ranking++;
+        }
+
+        return view('rekomendasi', [
+            'title'=> 'REKOMENDASI',
+            'hasil' => $school
+        ]);
+    }
+
+    private function pembagi(array $alternatif)
+    {
+        $alternatifOnlyCriteria = [];
+        foreach ($alternatif as $key ) {
+            $criteria = [];
+            $criteria[] = $key['akreditasi'];
+            $criteria[] = $key['ruang_kelas'];
+            $criteria[] = $key['laboratorium']+$key['perpustakaan']+$key['uks']+$key['sanitasi']+$key['tempat_ibadah'];
+            $criteria[] = $key['guru'];
+            $criteria[] = $key['ekstrakulikuler'];
+            $criteria[] = $key['biaya_masuk'];
+            $criteria[] = $key['biaya_spp'];
+            $criteria[] = $key['jarak'];
+            $alternatifOnlyCriteria[] = $criteria;
+        }
+        
+        $sumCriteria = array_fill(0, 8, 0);
+        foreach ($alternatifOnlyCriteria as $criteria ) {
             foreach ($criteria as $key => $value) {
                 $sumCriteria[$key] += pow($value, 2);
             }
@@ -39,29 +115,31 @@ class AlternatifModelController extends Controller
            $sumCriteria[$key] = sqrt($value);
         }
 
-        return $sumCriteria;
+
+        return [$alternatifOnlyCriteria, $sumCriteria];
     }
 
-    public function normalizeMatrix(){
-        $alternatif = AlternatifModel::all();
-        $mapOnlyCriteria = $alternatif->map(function($alternatif) {
-            $sumCriteria = $this->pembagi();
-            return [
-                $alternatif->akreditasi/$sumCriteria[0],
-                $alternatif->ruang_kelas/$sumCriteria[1],
-                ($alternatif->laboratorium + $alternatif->perpustakaan + $alternatif->uks + $alternatif->sanitasi + $alternatif->tempat_ibadah)/$sumCriteria[2],
-                $alternatif->guru/$sumCriteria[3],
-                $alternatif->ekstrakulikuler/$sumCriteria[4],
-                $alternatif->biaya_masuk/$sumCriteria[5],
-                $alternatif->biaya_spp/$sumCriteria[6],
-            ];
-        });
-        return $mapOnlyCriteria;
+    public function normalizeMatrix(array $alternatif, array $pembagi){
+        $alternatifOnlyCriteria = [];
+        foreach ($alternatif as $key ) {
+            $sumCriteria = $pembagi;
+            $criteria = [];
+            $criteria[] = $key['akreditasi']/$sumCriteria[0];
+            $criteria[] = $key['ruang_kelas']/$sumCriteria[1];
+            $criteria[] = ($key['laboratorium']+$key['perpustakaan']+$key['uks']+$key['sanitasi']+$key['tempat_ibadah'])/$sumCriteria[2];
+            $criteria[] = $key['guru']/$sumCriteria[3];
+            $criteria[] = $key['ekstrakulikuler']/$sumCriteria[4];
+            $criteria[] = $key['biaya_masuk']/$sumCriteria[5];
+            $criteria[] = $key['biaya_spp']/$sumCriteria[6];
+            $criteria[] = $key['jarak']/$sumCriteria[7];
+            $alternatifOnlyCriteria[] = $criteria;
+        }
+        return $alternatifOnlyCriteria;
     }
 
-    public function weightedNormalizeMatrix() {
+    public function weightedNormalizeMatrix(array $normalizeMatrix) {
         $weightCriteria = app('App\Http\Controllers\KriteriaController')->calculateGlobalWeight();
-        $mapOnlyCriteria = $this->normalizeMatrix();
+        $mapOnlyCriteria = $normalizeMatrix;
         $weightedMatrix = [];
         for ($i=0; $i < count($mapOnlyCriteria); $i++) { 
             $row = $mapOnlyCriteria[$i];
@@ -75,10 +153,10 @@ class AlternatifModelController extends Controller
         return $weightedMatrix;
     }
 
-    public function idealSolution() {
+    public function idealSolution(array $weightedMatrix) {
         $resmax=[];
         $resmin=[];
-        $alternatifTerbobot = $this->weightedNormalizeMatrix();
+        $alternatifTerbobot = $weightedMatrix;
         for ($i=0; $i < count($alternatifTerbobot[0]) ; $i++) { 
             $column = array_column($alternatifTerbobot, $i);
             if ($i >= 5) {
@@ -95,44 +173,35 @@ class AlternatifModelController extends Controller
         return [$resmax, $resmin];
     }
 
-    public function idealDistance() {
-        $alternatifTerbobot = $this->weightedNormalizeMatrix();
+    public function idealDistance(array $weightedMatrix, array $idealSolution) {
+        $alternatifTerbobot = $weightedMatrix;
         foreach($alternatifTerbobot as $criteria){
             $distancemax = [];
             $distancemin = [];
-            list($resmax, $resmin) = $this->idealSolution();
+            list($resmax, $resmin) = $idealSolution;
             foreach($criteria as $key => $value) {
-                $distancemax[$key] = $value - $resmax[$key];
-                $distancemin[$key] = $value - $resmin[$key];
+                $distancemax[$key] = pow($value - $resmax[$key],2);
+                $distancemin[$key] = pow($value - $resmin[$key],2);
             }
             $tempmax[] = $distancemax;
             $tempmin[] = $distancemin;
         }
+
+        $resultArrayIdealPos = [];
         foreach($tempmax as $subArray) {
-            $resultArray = [];
-            foreach ($subArray as $key => $value) {
-                $tempmax[$key] = pow($value,2);
-            }
-            $resultarr[] = $tempmax;
-            $sqrtSumIdealPositive = collect($resultarr)->map(function($items) {
-                return sqrt(collect($items)->sum());
-            })->toArray();
+            $resultArrayIdealPos[] = sqrt(array_sum($subArray));   
+        }
+        
+        $resultArrayIdealNeg = [];
+        foreach($tempmin as $subArr) {
+            $resultArrayIdealNeg[] = sqrt(array_sum($subArr)); 
         }
 
-        foreach($tempmin as $array) {
-            foreach ($array as $key => $value) {
-                $tempmin[$key] = pow($value,2);
-            }
-            $resultarray[] = $tempmin;
-            $sqrtSumIdealNegative = collect($resultarray)->map(function($items) {
-                return sqrt(collect($items)->sum());
-            })->toArray(); 
-        }
-        return [$sqrtSumIdealPositive, $sqrtSumIdealNegative];  
+        return [$resultArrayIdealPos, $resultArrayIdealNeg];  
     }
 
-    public function pref() {
-        list($sqrtSumIdealPositive, $sqrtSumIdealNegative) = $this->idealDistance();
+    public function pref(array $idealDistance) {
+        list($sqrtSumIdealPositive, $sqrtSumIdealNegative) = $idealDistance;
         
         $negative = collect($sqrtSumIdealNegative);
         $positive = collect($sqrtSumIdealPositive);
@@ -141,6 +210,6 @@ class AlternatifModelController extends Controller
             return $item/($item + $positive[$index]);
         })->toArray();
         
-        dd($result);
-    }
+        return $result;
+    }   
 }

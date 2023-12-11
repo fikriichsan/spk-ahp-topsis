@@ -42,6 +42,7 @@ class KriteriaController extends Controller
                 $kriteria->akreditasi,
                 $kriteria->fasilitas,
                 $kriteria->biaya,
+                $kriteria->lokasi,
             ];
         })->toArray();
         $total = $this->ahp->hitungTotal($newKriteria);
@@ -97,6 +98,7 @@ class KriteriaController extends Controller
             $kriteria[1]*$sub_kriteria_fasilitas[3],
             $kriteria[2]*$sub_kriteria_biaya[0],
             $kriteria[2]*$sub_kriteria_biaya[1],
+            $kriteria[3]
         ];
         return ($globalWeight);
     }
