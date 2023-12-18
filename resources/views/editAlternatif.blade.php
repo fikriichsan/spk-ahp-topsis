@@ -82,6 +82,10 @@
                                 <input class="form-control @error('tempat_ibadah') is-invalid @enderror" name="tempat_ibadah" id="tempat_ibadah" placeholder="Masukan Jumlah Tempat Ibadah" value="{{ $alternative->tempat_ibadah }}">
                             </div>
                             <div class="col-6 mb-3">
+                                <label for="sarana_olahraga" class="form-label">Ekstrakulikuler</label>
+                                <input class="form-control" name="sarana_olahraga" placeholder="Masukan Jumlah Sarana" value="{{ $alternative->sarana_olahraga }}">
+                            </div>
+                            <div class="col-6 mb-3">
                                 <label for="guru" class="form-label">Jumlah Guru</label>
                                 <input class="form-control @error('guru') is-invalid @enderror" id="guru" name="guru" placeholder="Masukan Jumlah guru" value="{{ $alternative->guru }}">
                             </div>

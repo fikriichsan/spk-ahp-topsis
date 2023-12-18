@@ -56,37 +56,41 @@
                     <fieldset class="border rounded-3 p-3">
                         <legend class="float-none w-auto px-3" >Fasilitas</legend>
                         <div class="row justify-content-center">
-                            <div class="col-6 mb-3">
+                            <div class="col-4 mb-3">
                                 <label for="ruang_kelas" class="form-label">Jumlah Kelas</label>
                                 <input type="text" class="form-control @error('ruang_kelas') is-invalid @enderror" name="ruang_kelas" id="ruang_kelas" placeholder="Masukan Jumlah Kelas">
                             </div>
-                            <div class="col-6 mb-3">
+                            <div class="col-4 mb-3">
                                 <label for="laboratorium" class="form-label">Jumlah Laboratory</label>
                                 <input type="text" class="form-control @error('laboratorium') is-invalid @enderror" name="laboratorium" id="laboratorium" placeholder="Masukan Jumlah Laboratorium">
                             </div>
-                            <div class="col-6 mb-3">
+                            <div class="col-4 mb-3">
                                 <label for="perpustakaan" class="form-label">Jumlah Perpustakaan</label>
                                 <input type="text" class="form-control @error('perpustakaan') is-invalid @enderror" name="perpustakaan" id="perpustakaan" placeholder="Masukan Jumlah Perpustakaan">
                             </div>
-                            <div class="col-6 mb-3">
+                            <div class="col-4 mb-3">
                                 <label for="uks" class="form-label">UKS</label>
                                 <input  class="form-control @error('uks') is-invalid @enderror" name="uks" id="uks" placeholder="Masukan Jumlah UKS">
                             </div>
-                            <div class="col-6 mb-3">
+                            <div class="col-4 mb-3">
                                 <label for="sanitasi" class="form-label">Sanitasi</label>
                                 <input  class="form-control @error('sanitasi') is-invalid @enderror" name="sanitasi" id="sanitasi" placeholder="Masukan jumlah sanitasi">
                             </div>
-                            <div class="col-6 mb-3">
+                            <div class="col-4 mb-3">
                                 <label for="tempat_ibadah" class="form-label">Tempat Ibadah</label>
                                 <input class="form-control @error('tempat_ibadah') is-invalid @enderror" name="tempat_ibadah" id="tempat_ibadah" placeholder="Masukan Jumlah Tempat Ibadah">
                             </div>
-                            <div class="col-6 mb-3">
+                            <div class="col-4 mb-3">
+                                <label for="sarana_olahraga" class="form-label">Sarana Olahraga</label>
+                                <input class="form-control @error('sarana_olahraga') is-invalid @enderror" name="sarana_olahraga" placeholder="Masukan Jumlah Sarana">
+                            </div>
+                            <div class="col-4 mb-3">
                                 <label for="guru" class="form-label">Jumlah Guru</label>
                                 <input class="form-control @error('guru') is-invalid @enderror" id="guru" name="guru" placeholder="Masukan Jumlah guru">
                             </div>
-                            <div class="col-6 mb-3">
+                            <div class="col-4 mb-3">
                                 <label for="ekstrakulikuler" class="form-label">Ekstrakulikuler</label>
-                                <input class="form-control" name="ekstrakulikuler" placeholder="Masukan Jumlah Ekstrakulikuler">
+                                <input class="form-control @error('ekstrakulikuler') is-invalid @enderror" name="ekstrakulikuler" placeholder="Masukan Jumlah Ekstrakulikuler">
                             </div>
                         </div>
                     </fieldset>

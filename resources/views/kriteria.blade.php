@@ -8,6 +8,7 @@
             <th scope="col">Akreditasi</th>
             <th scope="col">Fasilitas</th>
             <th scope="col">Biaya</th>
+            <th scope="col">Lokasi</th>
         </tr>
     </thead>
     <tbody>
@@ -17,6 +18,7 @@
                 <td scope="col">{{ $value->akreditasi }}</td>
                 <td scope="col">{{ $value->fasilitas }}</td>
                 <td scope="col">{{ $value->biaya }}</td>
+                <td scope="col">{{ $value->lokasi }}</td>
             </tr>
         @endforeach
     </tbody>
@@ -39,10 +41,11 @@
             <h5>Bobobot Kriteria</h5>
             <p>Akreditasi = {{ $eigen_vector[0] }} <br />
                 Fasilitas = {{ $eigen_vector[1] }} <br />
-                Biaya = {{ $eigen_vector[2] }}
+                Biaya = {{ $eigen_vector[2] }} <br />
+                Lokasi = {{ $eigen_vector[3] }} <br />
+                CI = {{ $consistency }}
             </p>
             @if ($consistency <= 0.1)
-                <p>{{ $consistency }}</p>
                 <p>Konsisten</p>
             @else
               <p>Tida Konsisten</p>
@@ -95,7 +98,8 @@
             <p>Ruang Kelas = {{ $eigen_vector_fasilitas[0] }} <br />
                 Sarana Pendukung = {{ $eigen_vector_fasilitas[1] }} <br />
                 Guru = {{ $eigen_vector_fasilitas[1] }} <br />
-                Ekstrakulikuler = {{ $eigen_vector_fasilitas[2] }}
+                Ekstrakulikuler = {{ $eigen_vector_fasilitas[2] }} <br />
+                CI = {{ $consistency_fasilitas }}
             </p>
             @if ($consistency_fasilitas <= 0.1)
                 <p>Konsisten</p>

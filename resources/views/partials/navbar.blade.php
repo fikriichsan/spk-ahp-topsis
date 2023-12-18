@@ -28,10 +28,10 @@
             <a class="nav-link mx-2" href="/faq">FAQ</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link mx-2" href="/#faq">CONTACT</a>
+            <a class="nav-link mx-2" href="/contact">CONTACT</a>
           </li>
           <li class="nav-item ms-3">
-            <a class="btn btn-light btn-rounded" href="#!">Sign in</a>
+            <a class="btn btn-light btn-rounded" href="/login">Sign in</a>
           </li>
         </ul>
       </div>

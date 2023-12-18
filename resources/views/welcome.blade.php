@@ -12,7 +12,7 @@
                     untuk memilih sekolah menengah pertama untuk anak anda
                 </p>
                 <div>
-                    <a class="btn btn-primary text-decoration-none" href="/rekomendasi">Get Started</a>
+                    <a class="btn btn-primary text-decoration-none" href="/cari-rekomendasi">Get Started</a>
                 </div>
             </div>
             <div class="col-6">

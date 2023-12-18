@@ -33,8 +33,11 @@ Route::post('/register', [RegisterController::class, 'store']);
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/faq', [HomeController::class, 'faq']);
+Route::get('/contact', [HomeController::class, 'contact']);
 Route::get('/hasil', [AlternatifModelController::class, 'index']);
-Route::post('/rekomendasi', [AlternatifModelController::class, 'hitungTopsis']);
+Route::get('/cari-rekomendasi', [AlternatifModelController::class, 'location']);
+Route::post('/rekomendasi', [AlternatifModelController::class, 'hitungTopsisGuest']);
+Route::post('/hasil-rekomendasi', [AlternatifModelController::class, 'hitungTopsis']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);

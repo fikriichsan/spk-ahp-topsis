@@ -26,6 +26,7 @@ class AlternatifModel extends Model
         'uks', 
         'sanitasi', 
         'tempat_ibadah', 
+        'sarana_olahraga', 
         'guru', 
         'ekstrakulikuler', 
         'biaya_masuk', 

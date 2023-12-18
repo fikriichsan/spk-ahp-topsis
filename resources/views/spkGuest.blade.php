@@ -1,8 +1,8 @@
 @extends('layouts.main')
 
 @section('container')
-<div class="container-fluid">
-    <div class="row justify-content-center">
+<div class="container my-5 py-5">
+    <div class="row">
         <div class="col-12 p-3">
             <div class="card rounded border">
                 <div class="card-header">
@@ -15,7 +15,7 @@
         </div>
         <div class="row justify-content-centerr">
             <div class="col-12">
-                <form action="/hasil-rekomendasi" method="POST">
+                <form action="/rekomendasi" method="POST">
                     @csrf
                     <input type="text" name="longitude" id="longitude" hidden>
                     <input type="text" name="latitude" id="latitude" hidden>
@@ -30,8 +30,8 @@
 @endsection
 
 @php
-    $showsidebar = true;
-    $showNavbar = false;
+    $showsidebar = false;
+    $showNavbar = true;
 @endphp
 
 <script>

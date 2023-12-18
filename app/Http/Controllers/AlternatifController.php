@@ -35,6 +35,7 @@ class AlternatifController extends Controller
             'uks'=> 'required', 
             'sanitasi'=> 'required', 
             'tempat_ibadah'=> 'required', 
+            'sarana_olahraga'=> 'required', 
             'guru'=> 'required', 
             'ekstrakulikuler'=> 'required', 
             'biaya_masuk'=> 'required', 
@@ -62,6 +63,14 @@ class AlternatifController extends Controller
         ], compact('alternative'));
     }
 
+    public function show($id) {
+        $alternative = AlternatifModel::findOrFail($id);
+        return view('detailAlternatif',[
+            'title'=> $alternative->nama_sekolah,
+            'alternative' => $alternative
+        ]);
+    }
+
     public function update(Request $request, $id) {
         $validateOldData = $request->validate([
             'nama_sekolah' => 'required|max:255', 
@@ -77,6 +86,7 @@ class AlternatifController extends Controller
             'uks'=> 'required', 
             'sanitasi'=> 'required', 
             'tempat_ibadah'=> 'required', 
+            'sarana_olahraga'=> 'required', 
             'guru'=> 'required', 
             'ekstrakulikuler'=> 'required', 
             'biaya_masuk'=> 'required', 

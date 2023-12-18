@@ -40,12 +40,22 @@ class AlternatifModelController extends Controller
         ]);
     }
 
+    public function location() {
+        $locationSchool = AlternatifModel::select('nama_sekolah', 'longitude', 'latitude')->get();
+        
+        return view('spkGuest', [
+            'title' => 'REKOMENDASI',
+            'lokasi_sekolah' => compact('locationSchool')
+        ]);
+    }
+
     public function hitungTopsis(Request $request){
         $latitude = $request->input('latitude');
         $longitude = $request->input('longitude');
         $jarakSekolah = [];
         $ranking = 1;
         $school = AlternatifModel::all()->toArray();
+        $locationSchool = AlternatifModel::select('nama_sekolah', 'longitude', 'latitude')->get();
         foreach ($school as $key ) {
             $long1 = deg2rad($longitude);
             $long2 = deg2rad($key['longitude']);
@@ -63,7 +73,7 @@ class AlternatifModelController extends Controller
             if ($longitude==0) {
                 $school[$i] += ['jarak'=>0]; 
             } else {
-                $school[$i] += ['jarak'=>$jarakSekolah[$i]];  
+                $school[$i] += ['jarak'=>round($jarakSekolah[$i])];  
             }
         }
 
@@ -85,7 +95,8 @@ class AlternatifModelController extends Controller
 
         return view('rekomendasi', [
             'title'=> 'REKOMENDASI',
-            'hasil' => $school
+            'hasil' => $school,
+            'lokasi_sekolah' => compact('locationSchool')
         ]);
     }
 
@@ -96,7 +107,7 @@ class AlternatifModelController extends Controller
             $criteria = [];
             $criteria[] = $key['akreditasi'];
             $criteria[] = $key['ruang_kelas'];
-            $criteria[] = $key['laboratorium']+$key['perpustakaan']+$key['uks']+$key['sanitasi']+$key['tempat_ibadah'];
+            $criteria[] = $key['laboratorium']+$key['perpustakaan']+$key['uks']+$key['sanitasi']+$key['tempat_ibadah']+$key['sarana_olahraga'];
             $criteria[] = $key['guru'];
             $criteria[] = $key['ekstrakulikuler'];
             $criteria[] = $key['biaya_masuk'];
@@ -126,7 +137,7 @@ class AlternatifModelController extends Controller
             $criteria = [];
             $criteria[] = $key['akreditasi']/$sumCriteria[0];
             $criteria[] = $key['ruang_kelas']/$sumCriteria[1];
-            $criteria[] = ($key['laboratorium']+$key['perpustakaan']+$key['uks']+$key['sanitasi']+$key['tempat_ibadah'])/$sumCriteria[2];
+            $criteria[] = ($key['laboratorium']+$key['perpustakaan']+$key['uks']+$key['sanitasi']+$key['tempat_ibadah']+$key['sarana_olahraga'])/$sumCriteria[2];
             $criteria[] = $key['guru']/$sumCriteria[3];
             $criteria[] = $key['ekstrakulikuler']/$sumCriteria[4];
             $criteria[] = $key['biaya_masuk']/$sumCriteria[5];
@@ -211,5 +222,56 @@ class AlternatifModelController extends Controller
         })->toArray();
         
         return $result;
-    }   
+    }
+    
+    public function hitungTopsisGuest(Request $request){
+        $latitude = $request->input('latitude');
+        $longitude = $request->input('longitude');
+        $jarakSekolah = [];
+        $ranking = 1;
+        $school = AlternatifModel::all()->toArray();
+        $locationSchool = AlternatifModel::select('nama_sekolah', 'longitude', 'latitude')->get();
+        foreach ($school as $key ) {
+            $long1 = deg2rad($longitude);
+            $long2 = deg2rad($key['longitude']);
+            $lat1 = deg2rad($latitude);
+            $lat2 = deg2rad($key['latitude']);
+            $dlong = $long2 - $long1;
+		    $dlati = $lat2 - $lat1;
+		    $val = pow(sin($dlati/2),2)+cos($lat1)*cos($lat2)*pow(sin($dlong/2),2);
+            $res = 2 * asin(sqrt($val));
+            $radius = 6371;
+            $distance = $res*$radius;
+            $jarakSekolah[] = $distance;
+        }
+        for ($i=0; $i < count($school) ; $i++) {
+            if ($longitude==0) {
+                $school[$i] += ['jarak'=>0]; 
+            } else {
+                $school[$i] += ['jarak'=>round($jarakSekolah[$i])];  
+            }
+        }
+
+        $pembagi = $this->pembagi($school);
+        $normalizeMatrix = $this->normalizeMatrix($school, $pembagi[1]);
+        $weightedMatrix = $this->weightedNormalizeMatrix($normalizeMatrix);
+        $idealSolution = $this->idealSolution($weightedMatrix);
+        $idealDistance = $this->idealDistance($weightedMatrix, $idealSolution);
+        $nilaiPref = $this->pref($idealDistance);
+
+        for ($i=0; $i <count($school) ; $i++) { 
+            $school[$i] += ['score'=>$nilaiPref[$i]];
+        }
+        array_multisort($nilaiPref, SORT_DESC, $school);
+        for ($i=0; $i <count($school) ; $i++) { 
+            $school[$i] += ['rank'=>$ranking];
+            $ranking++;
+        }
+
+        return view('rekomendasiGuest', [
+            'title'=> 'REKOMENDASI',
+            'hasil' => $school,
+            'lokasi_sekolah' => compact('locationSchool')
+        ]);
+    }
 }

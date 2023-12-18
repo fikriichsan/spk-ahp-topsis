@@ -21,6 +21,7 @@ class KriteriaController extends Controller
         $sub_kriteria_fasilitas = $this->calculateSubFasilitas();
         $sub_kriteria_biaya = $this->calculateSubBiaya();
         $globalWeight = $this->calculateGlobalWeight();
+        // dd($globalWeight);
         return view('kriteria', [
             'title' => 'Kriteria',
             'kriteria' => $kriteria[0],
